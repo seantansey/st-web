@@ -1,0 +1,145 @@
+@import 'fonts.scss';
+@import 'variables.scss';
+
+// Default Overrides
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: $bg;
+  color: $primary;
+  font-family: Albert-Sans, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1 {
+  font-weight: $font-bold;
+  margin-top: 0;
+  margin-bottom: $margin-lg;
+}
+p {
+  line-height: rem-calc(22);
+}
+
+// Global classes
+.btn {
+  display: block;
+  text-align: center;
+  margin: $margin-sm $margin-xs;
+  font-size: $font-size-sm;
+  font-weight: $font-medium;
+  border: none;
+  padding: 8px $padding;
+  text-decoration: none;
+  border-radius: 3px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.btn-lg {
+  margin: $margin $margin-sm;
+  font-size: $font-size;
+  padding: $padding-sm $padding-lg;
+  border-radius: 5px;
+}
+.btn-primary {
+  border: 1px solid $secondary;
+  color: $white;
+  background: $button-primary-bg;
+  &:hover {
+    background: $secondary;
+  }
+  &:disabled {
+    opacity: 0.8;
+    background: $bg-secondary;
+    border-color: $bg-secondary;
+    cursor: not-allowed;
+  }
+}
+.btn-secondary {
+  border: 1px solid $secondary;
+  color: $secondary;
+  background: transparent;
+  transition: opacity 0.3s;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+    background: $button-secondary-bg-hover;
+  }
+}
+
+.blog-post {
+  h2 {
+    font-size: $font-size-xl;
+    margin: $margin 0;
+  }
+  h3 {
+    font-size: $font-size-lg;
+    margin: $margin 0 $margin-sm;
+  }
+  li {
+    margin: $margin 0;
+    color: $quaternary;
+    padding-left: $padding-sm;
+
+    &::marker {
+      color: $primary;
+    }
+  }
+  pre {
+    background: #090c13;
+    padding: $padding-lg;
+    overflow: auto;
+    font-family: monospace;
+    font-size: $font-size;
+    margin: $margin-lg;
+    code {
+      .kd,
+      .k {
+        color: #f39c12;
+      }
+
+      .o {
+        color: #f9690e;
+      }
+
+      .nx {
+        color: $secondary;
+      }
+
+      .c1 {
+        color: #808080;
+      }
+
+      .s1 {
+        color: #f2ca27;
+      }
+
+      .mi {
+        color: #dda0dd;
+      }
+    }
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: $margin-xs;
+  }
+  a {
+    color: $secondary;
+  }
+  p {
+    color: $quaternary;
+    margin: $margin-sm 0;
+    img {
+      display: block;
+      margin: $margin-lg auto;
+    }
+  }
+  .highlight__panel-action {
+    display: none;
+  }
+  .js-fullscreen-code-action {
+    display: none;
+  }
+}
