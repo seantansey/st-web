@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import BlogCard from '../components/BlogCard/BlogCard.vue'
 import PageTemplate from '../components/shared/PageTemplate.vue'
 import { type ArticleSummary, getArticles } from '../api/blog.ts'
@@ -14,11 +14,13 @@ useHead({
     }
   ]
 })
-
+const loading = ref<boolean>(false)
 const articles = reactive<ArticleSummary[]>([])
 
 onMounted(async () => {
+  loading.value = true
   const data = await getArticles()
+  loading.value = false
   if ('error' in data) return
   articles.push(...data)
 })
@@ -31,7 +33,10 @@ onMounted(async () => {
         A collection of articles I've written on various web development concepts. Primarily created
         as notes for me to come back to, but you may find them useful as well.
       </h3>
-      <div v-if="articles.length">
+      <div v-if="loading" class="loading">
+        <font-awesome-icon icon="fa-solid fa-spinner" spin size="2x"/>
+      </div>
+      <div v-else-if="articles.length">
         <p>
           All blog posts are pulled from the dev.to API. To interact with any of these posts see my
           account @
@@ -69,6 +74,11 @@ onMounted(async () => {
   }
   h3 {
     color: $secondary;
+  }
+  .loading {
+    display: flex;
+    padding: $padding-xl;
+    justify-content: center;
   }
   .no-articles {
     padding: $padding-xl 0;

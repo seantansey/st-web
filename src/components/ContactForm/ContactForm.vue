@@ -9,16 +9,16 @@ const formData: Message = reactive({
   message: ''
 })
 
-const sending = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
 const resetForm = (): void => {
   ;(formData.name = ''), (formData.email = ''), (formData.subject = ''), (formData.message = '')
 }
 
 const submitForm = async (): Promise<void> => {
-  sending.value = true
+  loading.value = true
   const message = await postMessage(formData)
-  sending.value = false
+  loading.value = false
   if ('error' in message) return
   resetForm()
 }
@@ -79,9 +79,9 @@ const autoResize = (event: Event): void => {
       <div class="character-count">{{ formData.message.length }}/2000</div>
     </div>
     <div class="button-row">
-      <button :disabled="!validateMessage(formData)|| sending" type="submit" class="btn btn-primary">
+      <button :disabled="!validateMessage(formData)|| loading" type="submit" class="btn btn-primary">
         <span>Send</span>
-        <font-awesome-icon v-if="sending" icon="fa-solid fa-spinner" spin class="spinner" />
+        <font-awesome-icon v-if="loading" icon="fa-solid fa-spinner" spin class="loading" />
       </button>
     </div>
   </form>
@@ -163,7 +163,7 @@ const autoResize = (event: Event): void => {
   :deep(.btn) {
     margin-left: 0;
   }
-  .spinner {
+  .loading {
     color: $secondary;
     margin-left: $margin-sm;
   }

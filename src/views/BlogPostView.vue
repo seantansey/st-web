@@ -61,7 +61,7 @@ useHead({
     font-size: $font-size-header;
     border-bottom: 1px solid $tertiary;
     padding-bottom: $padding-xs;
-    margin-bottom: 20px;
+    margin-bottom: $margin;
     .fwd-slash {
       color: $secondary;
       margin-right: $margin-xs;
