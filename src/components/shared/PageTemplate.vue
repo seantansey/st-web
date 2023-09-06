@@ -74,7 +74,8 @@ withDefaults(defineProps<Props>(), {
         max-width: $max-width;
         margin: auto;
         padding: $padding-xxl;
-        min-height: calc(100vh - 300px);
+        min-height: calc(100vh - ($navbar-height + $footer-height));
+        box-sizing: border-box;
         @media only screen and (max-width: $tablet-sm) {
           padding: $padding-xl;
         }
