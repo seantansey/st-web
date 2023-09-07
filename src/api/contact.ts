@@ -44,7 +44,7 @@ export const postMessage = async (body: Message): Promise<Success | Error> => {
         type: 'success',
         message: 'Message sent successfully!'
       })
-      return response
+      return response as Success
     })
     .catch((error) => {
       store.addToast({
@@ -52,6 +52,6 @@ export const postMessage = async (body: Message): Promise<Success | Error> => {
         type: 'error',
         message: ERRORS.GENERIC
       })
-      return { error }
+      return { error } as Error
     })
 }

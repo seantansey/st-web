@@ -26,7 +26,7 @@ export interface Article {
 
 export const getArticles = async (): Promise<ArticleSummary[] | Error> => {
   if ('blogPosts' in store.apiData) {
-    return Promise.resolve(store.apiData.blogPosts as ArticleSummary[])
+    return Promise.resolve(store.apiData.blogPosts)
   }
   return request(`${BASE_URL}?username=seantansey`)
     .then(data => {
@@ -40,8 +40,7 @@ export const getArticles = async (): Promise<ArticleSummary[] | Error> => {
 
 export const getArticle = async (slug: string): Promise<Article | Error> => {
   if (slug in store.apiData) {
-    const result = store.apiData[slug as keyof Object] as Article
-    return Promise.resolve(result as Article)
+    return Promise.resolve(store.apiData[slug as keyof object])
   }
   return request(`${BASE_URL}/seantansey/${slug}`)
     .then(data => {
@@ -49,6 +48,6 @@ export const getArticle = async (slug: string): Promise<Article | Error> => {
       return data as Article
     })
     .catch(error => {
-      return { error }
+      return { error } as Error
     })
 }

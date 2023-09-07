@@ -8,7 +8,7 @@ export interface Error {
   error: string
 }
 
-export const request = async (url: string, options: Options = {}): Promise<any> => {
+export const request = async <T>(url: string, options: Options = {}): Promise<T> => {
   const { method = 'GET', headers, body } = options
   return fetch(url, {
     method,

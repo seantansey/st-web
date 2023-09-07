@@ -17,8 +17,8 @@ const article = reactive<Article>({
 })
 
 onMounted(async () => {
-  const id = route.params?.id as string | undefined
-  if (!id) return 
+  const { params: { id } } = route
+  if (typeof id !== 'string') return 
   const data = await getArticle(id)
   if ('error' in data) {
     router.push({ name: 'not-found' })
