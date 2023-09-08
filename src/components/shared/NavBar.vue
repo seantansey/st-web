@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUIStore } from '@/stores/ui'
 
@@ -8,6 +8,8 @@ const store = useUIStore()
 
 const links = ref<string[]>(['about', 'blog', 'contact'])
 let pageScrolled = ref<boolean>(false)
+const nav = ref<HTMLElement | null>(null)
+const focusable = ref<HTMLElement[]>([])
 
 const routeTo = (route: string): void => {
   router.push({ name: route })
@@ -20,9 +22,36 @@ const href = (link: string): string => {
   return '/' + link
 }
 
-const closeMenu = (): void => store.closeMenu()
+const focusTrap = (event: KeyboardEvent, first?: HTMLElement, last?: HTMLElement): void => {
+  if (event.code !== 'Tab') return
+  const current = document.activeElement
+  if (event.shiftKey && current === first) {
+    event.preventDefault()
+    last?.focus()
+  } else if (!event.shiftKey && current === last) {
+    event.preventDefault()
+    first?.focus()
+  }
+}
 
-const openMenu = (): void => store.openMenu()
+const focusTrapHandler = (event: KeyboardEvent): void => {
+  const first = focusable.value[0]
+  const last = focusable.value[focusable.value.length - 1]
+  focusTrap(event, first, last)
+}
+
+const openMenu = async (): Promise<void> => {
+  store.openMenu()
+  if (!nav.value) return
+  await nextTick()
+  focusable.value = Array.from(nav.value.querySelectorAll('a, button'))
+  window.addEventListener('keydown', focusTrapHandler)
+}
+
+const closeMenu = (): void => {
+  store.closeMenu()
+  window.removeEventListener('keydown', focusTrapHandler)
+}
 
 const showNavbar = (): number => setTimeout(() => store.showNavbar(), 2500)
 
@@ -53,7 +82,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav :class="{ 'fade-in': !store.navbarVisible }">
+  <nav ref="nav" :class="{ 'fade-in': !store.navbarVisible }">
     <div class="navbar" :class="{ 'navbar-shadow': pageScrolled }">
       <div class="navbar-left">
         <div class="website-logo-wrapper">

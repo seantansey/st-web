@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import NavBar from './NavBar.vue'
 import FooterBar from './FooterBar.vue'
-import ToastWrapper from './ToastWrapper.vue';
+import ToastWrapper from './ToastWrapper.vue'
 import { useUIStore } from '../../stores/ui.js'
 
-const store = useUIStore()
+const store = useUIStore() 
 
 interface Props {
   backButton?: boolean
@@ -30,7 +30,7 @@ withDefaults(defineProps<Props>(), {
         <div class="page-transition-container">
           <main>
             <div class="page-content">
-              <a v-if="backButton" class="back-button" @click="$router.back()">
+              <a v-if="backButton" class="back-button" href="#" @click="$router.back()">
                 <font-awesome-icon icon="fa-solid fa-chevron-left" size="sm" />
                 Back
               </a>
