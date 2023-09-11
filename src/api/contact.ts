@@ -1,4 +1,4 @@
-import { type Error, request } from './request.ts'
+import { request } from './request.ts'
 import { useUIStore } from '@/stores/ui'
 const store = useUIStore()
 
@@ -9,8 +9,8 @@ export interface Message {
   message: string
 }
 
-interface Success {
-  success: boolean
+interface Response {
+  error: string
 }
 
 const ERRORS = {
@@ -20,7 +20,7 @@ const ERRORS = {
 
 export const validateMessage = ({ name, email, subject, message }: Message) => !!(name && email && subject && message)
   
-export const postMessage = async (body: Message): Promise<Success | Error> => {
+export const postMessage = async (body: Message): Promise<Response> => {
   const isValid = validateMessage(body)
   if (!isValid) {
     store.addToast({
@@ -38,20 +38,20 @@ export const postMessage = async (body: Message): Promise<Success | Error> => {
     },
     body
   })
-    .then(response => {
+    .then(() => {
       store.addToast({
         key: crypto.randomUUID(),
         type: 'success',
         message: 'Message sent successfully!'
       })
-      return response as Success
+      return { error: "" }
     })
-    .catch((error) => {
+    .catch(error => {
       store.addToast({
         key: crypto.randomUUID(),
         type: 'error',
         message: ERRORS.GENERIC
       })
-      return { error } as Error
+      return { error: error.message }
     })
 }

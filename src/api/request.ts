@@ -1,11 +1,7 @@
 interface Options {
-  method?: string,
-  headers?: object,
+  method?: string
+  headers?: object
   body?: object
-}
-
-export interface Error {
-  error: string
 }
 
 export const request = async <T>(url: string, options: Options = {}): Promise<T> => {

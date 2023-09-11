@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import BlogCard from '../components/BlogCard/BlogCard.vue'
 import PageTemplate from '../components/shared/PageTemplate.vue'
-import { type ArticleSummary, getArticles } from '../api/blog.ts'
+import { type Articles, getArticles } from '../api/blog.ts'
 import { useHead } from '@vueuse/head'
 
 useHead({
@@ -15,13 +15,13 @@ useHead({
   ]
 })
 const loading = ref<boolean>(false)
-const articles = reactive<ArticleSummary[]>([])
+const articles = reactive<Articles[]>([])
 
 onMounted(async () => {
   loading.value = true
-  const data = await getArticles()
+  const { data, error } = await getArticles()
   loading.value = false
-  if ('error' in data) return
+  if (!data || error) return
   articles.push(...data)
 })
 </script>
